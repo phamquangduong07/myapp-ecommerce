@@ -1,0 +1,178 @@
+<header class="sticky-top">
+  <!-- TOP NAV -->
+  <nav
+    class="navbar navbar-expand-lg bg-success-subtle border-bottom shadow-sm"
+  >
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand fw-semibold text-success" href="#">
+        <i class="fa-solid fa-leaf me-1"></i>MyShop
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav Content -->
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/">Trang chủ</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Giới thiệu</a></li>
+        </ul>
+
+        <!-- RIGHT: Notifications + Avatar + Dark Mode -->
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+          <!-- Notifications -->
+          <li class="nav-item dropdown me-3">
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              href="#"
+              data-bs-toggle="dropdown"
+            >
+              <i class="fa-solid fa-bell me-1 fs-5"></i>
+              <span>Thông báo</span>
+            </a>
+
+            <!-- <ul
+              class="dropdown-menu dropdown-menu-end p-2"
+              style="width: 300px"
+            >
+              <li class="fw-semibold px-2">Thông báo mới</li>
+              <li><hr class="dropdown-divider" /></li>
+
+              <li class="d-flex align-items-start px-2 py-2 notif-item">
+                <i class="fa-solid fa-tag text-success mt-1 me-2"></i>
+                <div>
+                  Flash Sale đang diễn ra!
+                  <div class="small text-muted">2 phút trước</div>
+                </div>
+              </li>
+
+
+              <li class="d-flex align-items-start px-2 py-2 notif-item">
+                <i class="fa-solid fa-box text-primary mt-1 me-2"></i>
+                <div>
+                  Đơn hàng #1234 đã giao thành công.
+                  <div class="small text-muted">1 giờ trước</div>
+                </div>
+              </li>
+
+              <li><hr class="dropdown-divider" /></li>
+              <li class="text-center">
+                <a href="#" class="small">Xem tất cả</a>
+              </li>
+            </ul> -->
+          </li>
+
+          <!-- ĐÃ ĐĂNG NHẬP -->
+          <li class="nav-item">
+            <ng-container *ngIf="userResponse">
+              <ng-container
+                ngbPopover="Tài khoản của tôi,Đơn mua,Đăng xuất"
+                popoverTitle="User Actions"
+                triggers="click"
+                [placement]="'bottom'"
+              >
+                <a
+                  class="nav-link"
+                  routerLink="/profile"
+                  [ngbPopover]="popoverContent"
+                  (click)="togglePopover($event)"
+                >
+                  {{ userResponse.fullname }}
+                </a>
+                <ng-template #popoverContent>
+                  <div class="popover-list">
+                    <a class="popover-item" (click)="handleItemClick(0)"
+                      >Tài khoản của tôi</a
+                    >
+                    <a class="popover-item" (click)="handleItemClick(1)"
+                      >Đơn mua</a
+                    >
+                    <a class="popover-item" (click)="handleItemClick(2)"
+                      >Đăng xuất</a
+                    >
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!userResponse">
+              <a class="nav-link" routerLink="/login">Đăng nhập</a>
+            </ng-container>
+          </li>
+
+          <li class="nav-item ms-3">
+            <div class="dropdown cart-dropdown position-relative">
+
+  <a
+    class="text-decoration-none text-dark position-relative"
+    routerLink="/orders"
+  >
+    <i class="fa-solid fa-cart-shopping fs-4"></i>
+
+    <span
+      *ngIf="isLoggedIn && totalCartItems > 0"
+      class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+    >
+      {{ totalCartItems }}
+    </span>
+
+  </a>
+
+  <ul
+    *ngIf="isLoggedIn"
+    class="dropdown-menu dropdown-menu-end p-3 mini-cart"
+    style="width: 320px"
+  >
+    <li class="d-flex mb-2" *ngFor="let item of miniCartItems">
+
+      <img
+        [src]="item.product.thumbnail"
+        width="45"
+        height="45"
+        class="me-2 rounded"
+      />
+
+      <div>
+        {{ item.product.name }}
+        <div class="text-muted small">
+          {{ item.quantity }} x {{ item.product.price | number }} đ
+        </div>
+      </div>
+
+    </li>
+
+    <li><hr /></li>
+
+    <!-- <li class="text-center">
+      <button
+        class="btn btn-success w-100"
+        routerLink="/orders"
+      >
+        Xem giỏ hàng
+      </button>
+    </li> -->
+
+  </ul>
+
+</div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SEARCH BAR + CART -->
+</header>

@@ -1,0 +1,145 @@
+
+
+// .page-number {
+//     cursor: pointer;
+//     padding: 5px 10px;
+//     border: 1px solid #ccc;
+//     margin: 0 2px;
+//     border-radius: 3px;
+// }
+
+// .page-number.active {
+//     background-color: $shopapp-color !important;
+//     color: #fff;
+//     border-color: $shopapp-color !important;
+// }
+
+// .btn.btn-primary {
+//     margin-left: 10px;
+// }
+// .container-fluid {
+//     background-color: white;
+//     padding-left: 0 !important; /* Remove left padding */
+//     padding-right: 0 !important; /* Remove right padding */
+//     height: 100vh;
+// }
+/* ===== Page Title ===== */
+h2 {
+  letter-spacing: 0.5px;
+}
+
+/* ===== Card ===== */
+.card {
+  border-radius: 12px;
+  border: none;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* ===== Table ===== */
+.table {
+  font-size: 14px;
+}
+
+.table thead th {
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ===== Customer block ===== */
+.table td .fw-semibold {
+  font-size: 14px;
+}
+
+.table td small {
+  font-size: 12px;
+}
+
+/* ===== Order info block ===== */
+.table td span.fw-semibold {
+  color: #495057;
+}
+
+.text-danger {
+  font-size: 15px;
+}
+
+/* ===== Status badge ===== */
+.badge {
+  padding: 6px 10px;
+  font-size: 11px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+.bg-success {
+  background-color: #198754 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+/* ===== Payment badge ===== */
+.badge.bg-info {
+  background-color: #e3f2fd !important;
+  color: #0d6efd !important;
+  border: 1px solid #0d6efd;
+}
+
+/* ===== Shipping block ===== */
+.table td small.text-muted {
+  display: block;
+  line-height: 1.4;
+}
+
+/* ===== Action button ===== */
+.btn-outline-danger {
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  margin-bottom: 0;
+}
+
+.pagination .page-link {
+  border-radius: 8px;
+  margin: 0 3px;
+  font-size: 13px;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #212529;
+  border-color: #212529;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .table {
+    font-size: 13px;
+  }
+
+  .badge {
+    font-size: 10px;
+  }
+}

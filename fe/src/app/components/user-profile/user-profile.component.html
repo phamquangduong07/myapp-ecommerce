@@ -1,0 +1,104 @@
+<app-header></app-header>
+
+<div class="container py-5">
+  <form [formGroup]="userProfileForm">
+    <div class="row justify-content-center">
+      <div class="col-lg-5 col-md-7 col-sm-10">
+        <div class="card shadow-sm border-0 rounded-4">
+          <div class="card-body p-4">
+
+            <h4 class="text-center fw-bold mb-4">
+              Thông tin người dùng
+            </h4>
+
+            <!-- Họ và tên -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Họ và tên</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                formControlName="fullname"
+                [class.is-invalid]="
+                  userProfileForm.get('fullname')!.invalid &&
+                  userProfileForm.get('fullname')!.touched
+                "
+              />
+              <div class="invalid-feedback">
+                Họ và tên là trường bắt buộc.
+              </div>
+            </div>
+
+            <!-- Địa chỉ -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Địa chỉ</label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                formControlName="address"
+              />
+            </div>
+
+            <!-- Ngày sinh -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Ngày sinh</label>
+              <input
+                type="date"
+                class="form-control form-control-lg"
+                formControlName="date_of_birth"
+              />
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Mật khẩu</label>
+              <div class="position-relative">
+                <input
+                  type="password"
+                  class="form-control form-control-lg pe-5"
+                  formControlName="password"
+                  [class.is-invalid]="
+                    userProfileForm.get('password')!.invalid &&
+                    userProfileForm.get('password')!.touched
+                  "
+                  autocomplete="new-password"
+                />
+                <div class="invalid-feedback">
+                  Mật khẩu ít nhất 3 ký tự.
+                </div>
+              </div>
+            </div>
+
+            <!-- Nhập lại mật khẩu -->
+            <div class="mb-4">
+              <label class="form-label fw-semibold">Nhập lại mật khẩu</label>
+              <input
+                type="password"
+                class="form-control form-control-lg"
+                formControlName="retype_password"
+                [class.is-invalid]="
+                  userProfileForm.get('retype_password')!.touched &&
+                  userProfileForm.hasError('passwordMismatch')
+                "
+              />
+              <div class="invalid-feedback">
+                Mật khẩu không khớp.
+              </div>
+            </div>
+
+            <!-- Button -->
+            <button
+              type="button"
+              class="btn btn-primary btn-lg w-100"
+              (click)="save()"
+            >
+              Lưu thay đổi
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-footer></app-footer>

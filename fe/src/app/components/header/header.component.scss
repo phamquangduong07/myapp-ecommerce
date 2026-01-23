@@ -1,0 +1,85 @@
+.nav-link:hover {
+    color: #198754 !important;
+    transform: translateY(-1px);
+  }
+
+  .notif-item:hover {
+    background: #f8f9fa;
+    border-radius: 6px;
+  }
+
+  .suggest-box {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .suggest-item {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .suggest-item:hover {
+    background: #f3f3f3;
+  }
+
+.popover-list {
+    padding: 10px;
+}
+.popover-body {
+    padding: 0px;
+}
+.popover-item {
+    display: block;
+    margin-bottom: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.popover-item:hover {
+    background-color: #f0f0f0;
+    color: red;
+    /* Change text color to red on hover */
+}
+.cart-dropdown:hover .mini-cart {
+  display: block;
+}
+
+.mini-cart {
+  display: none;
+  margin-top: 10px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+.cart-dropdown {
+  position: relative;
+}
+
+/* MINI CART PANEL */
+.mini-cart {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 120%;
+  z-index: 1000;
+
+  width: 320px;
+  max-width: 90vw;
+
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* HOVER SHOW */
+.cart-dropdown:hover .mini-cart {
+  display: block;
+}

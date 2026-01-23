@@ -1,0 +1,65 @@
+.order-detail {
+  .card {
+    border-radius: 14px;
+  }
+
+  .card-header {
+    border-radius: 14px 14px 0 0;
+    font-size: 1.05rem;
+  }
+
+  /* Thông tin người nhận */
+  .info-list {
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      font-size: 0.95rem;
+
+      span {
+        color: #6c757d;
+      }
+
+      strong {
+        text-align: right;
+        max-width: 60%;
+      }
+    }
+  }
+
+  /* Bảng sản phẩm */
+  .product-table {
+    th {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: #6c757d;
+    }
+
+    td {
+      padding: 16px 12px;
+      vertical-align: middle;
+    }
+  }
+
+  .product-image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    background: #fff;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .info-list li {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+
+      strong {
+        max-width: 100%;
+      }
+    }
+  }
+}

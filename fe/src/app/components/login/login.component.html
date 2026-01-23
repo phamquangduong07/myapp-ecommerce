@@ -1,0 +1,83 @@
+<div
+  class="min-vh-100 d-flex justify-content-center align-items-center bg-success-subtle"
+>
+  <div
+    class="card shadow border-0 p-4"
+    style="width: 380px; border-radius: 16px"
+  >
+    <h4 class="fw-bold text-center mb-3">Đăng nhập</h4>
+
+    <form #loginForm="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Số điện thoại</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập số điện thoại"
+          [(ngModel)]="phoneNumber"
+          name="phoneNumber"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu</label>
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control password-input"
+            placeholder="Nhập ít nhất 3 ký tự"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            #passwordInput="ngModel"
+            (focus)="passwordInput.control.markAsTouched()"
+            minlength="3"
+            required
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            aria-label="Hiện/ẩn mật khẩu"
+            (click)="showPassword = !showPassword"
+          >
+            <i
+              class="fa-solid"
+              [class.fa-eye]="showPassword"
+              [class.fa-eye-slash]="!showPassword"
+            ></i>
+          </button>
+        </div>
+      </div>
+      <div class="mb-3">
+        <input type="checkbox" class="text-decoration-none fw-semibold" /> Ghi
+        nhớ đăng nhập
+      </div>
+      <!-- <div class="mb-3 col-8">
+
+        <select class="form-select" name="role"  required
+        [(ngModel)]="selectedRole"
+        >
+          <option value="" disabled selected>Quyền đăng nhập</option>
+          <option *ngFor="let role of roles" [ngValue]="role">{{ role.name }}</option>
+
+        </select>
+      </div> -->
+      <button class="btn btn-success w-100 py-2 mt-2" (click)="login()">
+        Đăng nhập
+      </button>
+
+      <div class="text-center mt-3">
+        <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
+      </div>
+
+      <div class="text-center mt-2">
+        <small
+          >Bạn chưa có tài khoản?
+          <a routerLink="/register" class="text-decoration-none fw-semibold"
+            >Đăng ký</a
+          ></small
+        >
+      </div>
+    </form>
+  </div>
+</div>

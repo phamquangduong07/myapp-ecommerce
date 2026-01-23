@@ -1,0 +1,195 @@
+<div class="header-wrapper">
+  <app-header></app-header>
+  <div class="bg-white py-3 border-bottom shadow-sm">
+    <div class="container d-flex align-items-center justify-content-between">
+      <!-- Search -->
+      <div class="flex-grow-1 me-4 position-relative">
+        <div class="input-group">
+          <span class="input-group-text bg-light">
+            <i class="fa-solid fa-list"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control shadow-sm"
+            placeholder="Tìm sản phẩm, danh mục..."
+            id="searchInput"
+            [(ngModel)]="keyword"
+          />
+          <button class="btn btn-success" (click)="searchProducts()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+
+        <!-- autocomplete -->
+      </div>
+
+      <!-- Cart dropdown -->
+    </div>
+  </div>
+</div>
+<section class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 fw-bolder">Shop in style</h1>
+      <p class="lead fw-normal text-white-50 mb-0">
+        With this shop hompeage template
+      </p>
+    </div>
+  </div>
+</section>
+<section class="py-5">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar Left -->
+      <div class="col-lg-3 d-none d-lg-block">
+        <div
+          class="sidebar position-sticky"
+          style="top: 80px; max-height: 80vh; overflow-y: auto"
+        >
+          <h6 class="fw-bold mb-3">Danh mục sản phẩm</h6>
+          <select
+            class="form-control product-category"
+            [(ngModel)]="selectedCategoryId"
+            (change)="searchProducts()"
+          >
+            <option [value]="0">Tất cả</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!-- Main Content -->
+      <div class="col-lg-9">
+        <div
+          class="d-flex align-items-center bg-white border rounded p-3 mb-4 custom-sort-bar"
+        >
+          <span class="text-muted me-3 custom-label">Sắp xếp theo</span>
+
+          <div
+            class="btn-group me-3 custom-btn-group"
+            role="group"
+            aria-label="Sort buttons"
+          >
+            <button
+              type="button"
+              class="btn btn-sm btn-primary active custom-active-btn"
+            >
+              Phổ Biến
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary custom-default-btn"
+            >
+              Mới Nhất
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary custom-default-btn"
+            >
+              Bán Chạy
+            </button>
+          </div>
+
+          <div class="dropdown custom-dropdown">
+            <button
+              class="btn btn-sm btn-outline-secondary dropdown-toggle custom-default-btn"
+              type="button"
+              id="priceDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Giá
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="priceDropdown">
+              <li><a class="dropdown-item" href="#">Thấp → Cao</a></li>
+              <li><a class="dropdown-item" href="#">Cao → Thấp</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Product Card Example -->
+          <div class="col-md-6 col-lg-4" *ngFor="let product of products">
+            <div
+              class="card product-card h-100 shadow-sm"
+              (click)="onProductClick(product.id)"
+            >
+              <div class="position-relative">
+                <img
+                  [src]="product.url"
+                  class="card-img-top"
+                  alt="Product Image"
+                />
+                <!-- Badge giảm giá
+        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-20%</span> -->
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                <p class="card-text text-muted flex-grow-1 text-truncate-2">
+  {{ product.description }}
+</p>
+
+                <div
+                  class="d-flex justify-content-between align-items-center mt-3"
+                >
+                  <span class="fw-bold text-danger fs-5">
+                    {{ product.price | number: "1.0-0" }} đ</span
+                  >
+                  <div class="d-flex gap-2">
+                    <button
+                      class="btn btn-outline-success btn-sm"
+                      (click)="addToCart(product.id, $event)"
+                    >
+                      <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+
+                    <button class="btn bg-success btn-sm text-white">
+                      Mua ngay
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card 2 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="d-flex justify-content-center">
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(1)">First</a>
+      </li>
+      <li class="page-item" *ngIf="currentPage > 1">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage - 1)"
+          >Previous</a
+        >
+      </li>
+      <ng-container *ngFor="let page of visiblePages">
+        <li class="page-item" [ngClass]="{ active: page === currentPage }">
+          <a class="page-link" href="#" (click)="onPageChange(page)">{{
+            page
+          }}</a>
+        </li>
+      </ng-container>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(currentPage + 1)"
+          >Next</a
+        >
+      </li>
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" href="#" (click)="onPageChange(totalPages)"
+          >Last</a
+        >
+      </li>
+    </ul>
+  </nav>
+</div>
+<app-footer></app-footer>

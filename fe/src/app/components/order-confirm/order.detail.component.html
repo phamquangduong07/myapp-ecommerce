@@ -1,0 +1,107 @@
+<app-header></app-header>
+
+<div class="container my-5 order-detail">
+  <!-- Intro -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-success">Chi tiết đơn hàng</h1>
+    <p class="text-muted">Xem thông tin chi tiết đơn hàng của bạn</p>
+  </div>
+
+  <div *ngIf="orderResponse" class="row g-4">
+    <!-- Thông tin người nhận -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-success text-white fw-semibold">
+          Thông tin người nhận
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush info-list">
+            <li class="list-group-item">
+              <span>Họ và tên</span>
+              <strong>{{ orderResponse.fullname }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Email</span>
+              <strong>{{ orderResponse.email }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Số điện thoại</span>
+              <strong>{{ orderResponse.phone_number }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Địa chỉ</span>
+              <strong>{{ orderResponse.address }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Ghi chú</span>
+              <strong>{{ orderResponse.note || 'Không có' }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Vận chuyển</span>
+              <strong>{{ orderResponse.shipping_method }}</strong>
+            </li>
+            <li class="list-group-item">
+              <span>Thanh toán</span>
+              <strong>{{ orderResponse.payment_method }}</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sản phẩm -->
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white fw-semibold">
+          Sản phẩm đã đặt
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle mb-0 product-table">
+            <thead class="table-light">
+              <tr>
+                <th>Sản phẩm</th>
+                <th class="text-center">SL</th>
+                <th class="text-end">Đơn giá</th>
+                <th class="text-end">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of orderResponse.order_details">
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <img
+                      [src]="item.product.thumbnail"
+                      alt=""
+                      class="product-image"
+                    />
+                    <span class="fw-medium">{{ item.product.name }}</span>
+                  </div>
+                </td>
+                <td class="text-center">
+                  {{ item.numberOfProducts  }}
+                </td>
+                <td class="text-end">
+                  {{ item.price | number:'1.0-0' }} ₫
+                </td>
+                <td class="text-end fw-semibold text-success">
+                  {{ (item.price * item.numberOfProducts) | number:'1.0-0' }} ₫
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tổng tiền -->
+        <div class="card-footer bg-light text-end">
+          <span class="me-2 text-muted">Tổng thanh toán:</span>
+          <span class="fs-4 fw-bold text-danger">
+            {{ orderResponse.total_money | number:'1.0-0' }} ₫
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

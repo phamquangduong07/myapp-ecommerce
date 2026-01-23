@@ -1,0 +1,63 @@
+<div class="container-fluid min-vh-100">
+  <!-- HEADER -->
+  <header class="row bg-success text-white align-items-center px-3" style="height: 60px;">
+    <div class="col">
+      <h5 class="mb-0 fw-bold">Admin Dashboard</h5>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-danger btn-sm" (click)="logout()">
+        <i class="fas fa-sign-out-alt me-1"></i>
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="row min-vh-100">
+    <!-- SIDEBAR -->
+    <nav class="col-md-3 col-lg-2 bg-light sidebar p-0 border-end">
+      <div class="d-flex flex-column p-3 h-100">
+        <h6 class="text-uppercase text-muted mb-3">Management</h6>
+
+        <ul class="nav nav-pills flex-column gap-1">
+          <li class="nav-item">
+            <a class="nav-link " (click)="showAdminComponent('orders')" >
+              <i class="fas fa-shopping-cart me-2"></i>
+              Orders
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" (click)="showAdminComponent('categories')" >
+              <i class="fas fa-list me-2"></i>
+              Categories
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" (click)="showAdminComponent('products')"  >
+              <i class="fas fa-box me-2"></i>
+              Products
+            </a>
+          </li>
+        </ul>
+
+        <hr class="mt-auto">
+
+        <small class="text-muted text-center">
+          © 2026 Admin Panel
+        </small>
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="col-md-9 col-lg-10 p-4 bg-light">
+      <!-- <ng-container [ngSwitch]="adminComponent">
+          <app-order-admin *ngSwitchCase="'orders'"></app-order-admin>
+          <app-product-admin *ngSwitchCase="'products'"></app-product-admin>
+          <app-category-admin *ngSwitchCase="'categories'"></app-category-admin>
+        </ng-container> -->
+         <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

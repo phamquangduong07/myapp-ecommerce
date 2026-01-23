@@ -1,0 +1,212 @@
+<div
+  class="min-vh-100 d-flex justify-content-center align-items-center bg-success-subtle"
+>
+  <div class="card shadow-sm p-4" style="width: 420px; border-radius: 14px">
+    <h4 class="text-center fw-bold mb-4">Đăng ký tài khoản</h4>
+
+    <form #registerForm="ngForm">
+      <!-- Số điện thoại -->
+      <div class="mb-3">
+        <label class="form-label" for="phone">Số điện thoại</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập số điện thoại"
+          id="phone"
+          name="phone"
+          [(ngModel)]="phone"
+          (input)="onPhoneChange()"
+          (focus)="phoneInput.control.markAsTouched()"
+          #phoneInput="ngModel"
+          required
+          minlength="6"
+        />
+        <p
+          class="text-danger"
+          *ngIf="phoneInput.errors?.['minlength'] && phoneInput.dirty && phoneInput.touched"
+        >
+          Số điện thoại phải có ít nhất 6 ký tự
+        </p>
+      </div>
+      <!-- Mật khẩu -->
+
+      <div class="mb-3">
+        <label class="form-label" for="password">Mật khẩu</label>
+
+        <!-- wrapper chỉ bọc input + icon, không bọc label -->
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control password-input"
+            placeholder="Nhập ít nhất 3 ký tự"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            (input)="checkPasswordMatch()"
+            #passwordInput="ngModel"
+            (focus)="passwordInput.control.markAsTouched()"
+            minlength="3"
+            required
+          />
+
+          <button
+            type="button"
+            class="password-toggle"
+            aria-label="Hiện/ẩn mật khẩu"
+            (click)="showPassword = !showPassword"
+          >
+            <i
+              class="fa-solid"
+              [class.fa-eye]="showPassword"
+              [class.fa-eye-slash]="!showPassword"
+            ></i>
+          </button>
+        </div>
+
+        <p
+          class="text-danger"
+          *ngIf="passwordInput.errors?.['minlength'] && passwordInput.dirty && passwordInput.touched"
+        >
+          Mật khẩu phải có ít nhất 3 ký tự
+        </p>
+      </div>
+
+      <!-- Nhập lại mật khẩu -->
+     <div class="mb-3">
+  <label class="form-label" for="retype-password">Nhập lại mật khẩu</label>
+
+  <div class="password-wrapper">
+    <input
+      [type]="showRetype ? 'text' : 'password'"
+      class="form-control password-input"
+      placeholder="Nhập lại mật khẩu"
+      id="retype-password"
+      name="retypePassword"
+      [(ngModel)]="retypePassword"
+      #retypePasswordInput="ngModel"
+      (input)="checkPasswordMatch()"
+      (focus)="retypePasswordInput.control.markAsTouched()"
+      minlength="3"
+      required
+    />
+
+    <button
+      type="button"
+      class="password-toggle"
+      (click)="showRetype = !showRetype"
+      aria-label="Hiện/ẩn mật khẩu"
+    >
+      <i
+        class="fa-solid"
+        [class.fa-eye]="showRetype"
+        [class.fa-eye-slash]="!showRetype"
+      ></i>
+    </button>
+  </div>
+
+  <p
+    class="text-danger"
+    *ngIf="retypePasswordInput.errors?.['minlength'] && retypePasswordInput.dirty
+    && retypePasswordInput.touched"
+  >
+    Mật khẩu phải có ít nhất 3 ký tự
+  </p>
+
+  <p
+    class="text-danger"
+    *ngIf="
+      retypePasswordInput.hasError('passwordMismatch') &&
+      retypePasswordInput.control.dirty &&
+      retypePasswordInput.control.touched
+    "
+  >
+    Mật khẩu không khớp
+  </p>
+</div>
+
+      <!-- Họ và tên -->
+      <div class="mb-3">
+        <label class="form-label" for="name">Họ và tên</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập họ và tên"
+          id="name"
+          name="fullName"
+          [(ngModel)]="fullName"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="date-of-birth"
+          >Ngày tháng năm sinh</label
+        >
+        <input
+          type="date"
+
+          class="form-control"
+          placeholder="Nhập họ và tên"
+          id="date-of-birth"
+          name="dateOfBirth"
+          [ngModel]="dateOfBirth | date:'yyyy-MM-dd'"
+          (input)="checkAge()"
+          #dateOfBirthInput="ngModel"
+          (focus)="dateOfBirthInput.control.markAsTouched()"
+          required
+        />
+        <p
+          class="text-danger"
+          *ngIf="
+            dateOfBirthInput.hasError('invalidAge') &&
+            dateOfBirthInput.dirty &&
+            dateOfBirthInput.touched
+          "
+        >
+          Bạn chưa đủ 18 tuổi
+        </p>
+      </div>
+
+      <!-- Địa chỉ -->
+      <div class="mb-3">
+        <label class="form-label" for="address">Địa chỉ</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nhập địa chỉ"
+          id="address"
+          name="address"
+          [(ngModel)]="address"
+        />
+      </div>
+
+      <div class="mb-4" v>
+        <input type="checkbox" [(ngModel)]="isAccepted" name="isAccepted" /> Tôi
+        đồng ý với các điều khoản dịch vụ
+      </div>
+      <!-- Button -->
+      <button
+        class="btn btn-success w-100 py-2 mb-3"
+        type="button"
+        (click)="register()"
+      >
+        Đăng ký
+      </button>
+    </form>
+    <div class="text-center">
+      <small
+        >Bạn đã có tài khoản?
+        <a routerLink="/login" class="text-decoration-none">Đăng nhập</a></small
+      >
+    </div>
+  </div>
+</div>
+<style>
+  .card input.form-control {
+    height: 42px;
+    border-radius: 8px;
+  }
+
+  button {
+    border-radius: 8px;
+  }
+</style>
