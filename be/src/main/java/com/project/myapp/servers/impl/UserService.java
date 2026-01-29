@@ -9,6 +9,7 @@ import com.project.myapp.exceptions.DataNotFoundException;
 import com.project.myapp.exceptions.PermissionDenyException;
 import com.project.myapp.models.*;
 import com.project.myapp.repositories.RoleRepository;
+import com.project.myapp.repositories.TokenRepository;
 import com.project.myapp.repositories.UserRepository;
 import com.project.myapp.servers.IUserService;
 import com.project.myapp.utils.MessageKeys;
@@ -32,12 +33,14 @@ public class UserService implements IUserService {
     private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final LocalizationUtils localizationUtils;
+    private final TokenRepository tokenRepository;
+
     @Override
     @Transactional
     public User createUser(UserDTO userDTO) throws Exception {
-        //register user
+
         String phoneNumber = userDTO.getPhoneNumber();
-        // Kiểm tra xem số điện thoại đã tồn tại hay chưa
+
         if(userRepository.existsByPhoneNumber(phoneNumber)) {
             throw new DataIntegrityViolationException("Phone number already exists");
         }
@@ -61,7 +64,7 @@ public class UserService implements IUserService {
 
         newUser.setRole(role);
 
-        // Kiểm tra nếu có accountId, không yêu cầu password
+
         if (userDTO.getFacebookAccountId() == 0 && userDTO.getGoogleAccountId() == 0) {
             String password = userDTO.getPassword();
             String encodedPassword = passwordEncoder.encode(password);
@@ -81,19 +84,16 @@ public class UserService implements IUserService {
         if(optionalUser.isEmpty()) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
         }
-        //return optionalUser.get();//muốn trả JWT token ?
+
         User existingUser = optionalUser.get();
-        //check password
+
         if (existingUser.getFacebookAccountId() == 0
                 && existingUser.getGoogleAccountId() == 0) {
             if(!passwordEncoder.matches(password, existingUser.getPassword())) {
                 throw new BadCredentialsException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
             }
         }
-//        Optional<Role> optionalRole = roleRepository.findById(roleId);
-//        if(optionalRole.isEmpty() || !roleId.equals(existingUser.getRole().getId())) {
-//            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.ROLE_DOES_NOT_EXISTS));
-//        }
+
         if(!optionalUser.get().isActive()) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
         }
@@ -120,7 +120,7 @@ public class UserService implements IUserService {
             throw new DataIntegrityViolationException("Phone number already exists");
         }
 
-        // Update user information based on the DTO
+
         if (updatedUserDTO.getFullName() != null) {
             existingUser.setFullName(updatedUserDTO.getFullName());
         }
@@ -150,8 +150,7 @@ public class UserService implements IUserService {
             String encodedPassword = passwordEncoder.encode(newPassword);
             existingUser.setPassword(encodedPassword);
         }
-        //existingUser.setRole(updatedRole);
-        // Save the updated user
+
         return userRepository.save(existingUser);
     }
 
@@ -168,6 +167,12 @@ public class UserService implements IUserService {
         } else {
             throw new Exception("User not found");
         }
+    }
+
+    @Override
+    public User getUserDetailsFromRefreshToken(String refreshToken) throws Exception {
+        Token existingToken = tokenRepository.findByRefreshToken(refreshToken);
+        return getUserDetailsFromToken(existingToken.getToken());
     }
 }
 

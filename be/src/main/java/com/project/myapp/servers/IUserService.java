@@ -11,5 +11,7 @@ public interface IUserService {
 //            , Long roleId
     ) throws Exception;
     User getUserDetailsFromToken(String token) throws Exception;
+    User getUserDetailsFromRefreshToken(String token) throws Exception;
     User updateUser(Long userId, UpdateUserDTO updatedUserDTO) throws Exception;
+
 }

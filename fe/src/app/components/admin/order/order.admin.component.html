@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <h2 class="mb-4 fw-bold">📦 Orders Management</h2>
 
-  <div class="card shadow-sm">
+  <div class="card shadow-sm ">
     <div class="card-body table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-dark text-center">
+      <table class="table table-hover align-middle table-bordered" >
+        <thead class="table-dark text-left">
           <tr>
             <th>#</th>
             <th>Customer</th>
@@ -75,12 +75,12 @@
             <!-- Action -->
             <td class="text-center">
               <button
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-outline-danger ms-1 "
                 (click)="deleteOrder(order.id)">
                 🗑 Delete
               </button>
                <button
-                class="btn btn-sm btn-outline-danger"
+                class="btn btn-sm btn-outline-info ms-1"
                 (click)="viewDetails(order)"
               >
                Detail
