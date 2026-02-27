@@ -34,7 +34,7 @@ public class WebSecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
     @Bean
-    //Pair.of(String.format("%s/products", apiPrefix), "GET"),
+
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception{
         http
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
@@ -114,7 +114,7 @@ public class WebSecurityConfig {
                                     "/swagger-ui.html"
                             ).permitAll()
                             .anyRequest().authenticated();
-                    //.anyRequest().permitAll();
+
 
                 })
                 .csrf(AbstractHttpConfigurer::disable);

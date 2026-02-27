@@ -1,1 +1,232 @@
-<h1>This is Product Admin</h1>
+<div class="container-fluid p-4">
+
+  <!-- Top Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+      <h4 class="fw-bold mb-1">Product Management</h4>
+      <small class="text-muted">
+        Manage all products in your store
+      </small>
+    </div>
+
+    <button
+      class="btn btn-success px-4"
+      (click)="insertProduct()">
+
+      <i class="fa fa-plus me-2"></i>
+      Add Product
+
+    </button>
+
+  </div>
+
+  <!-- Filter Toolbar -->
+  <div class="card shadow-sm mb-3">
+
+    <div class="card-body">
+
+      <div class="row g-3 align-items-center">
+
+        <!-- Search -->
+        <div class="col-lg-6">
+
+          <div class="input-group">
+
+            <span class="input-group-text bg-white">
+              <i class="fa fa-search"></i>
+            </span>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search product name..."
+              [(ngModel)]="keyword">
+
+          </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="col-lg-6 text-end">
+
+          <button
+            class="btn btn-primary px-4"
+            (click)="searchProducts()">
+
+            Search
+
+          </button>
+
+          <button class="btn btn-outline-secondary ms-2">
+
+            Reset
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Product Table Card -->
+  <div class="card shadow-sm">
+
+    <div class="table-responsive">
+
+      <table class="table table-hover align-middle mb-0">
+
+        <thead class="table-light">
+
+          <tr>
+            <th width="60">ID</th>
+            <th>Product</th>
+            <th width="120">Price</th>
+            <th width="120">Image</th>
+            <th>Description</th>
+            <th width="140" class="text-center">Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let product of products">
+
+            <!-- ID -->
+            <td class="text-muted">
+              #{{ product.id }}
+            </td>
+
+            <!-- Product Name -->
+            <td>
+
+              <div class="fw-semibold">
+                {{ product.name }}
+              </div>
+
+              <small class="text-muted">
+                SKU: PRD{{ product.id }}
+              </small>
+
+            </td>
+
+            <!-- Price -->
+            <td class="fw-bold text-danger">
+
+              {{ product.price | currency:'VND' }}
+
+            </td>
+
+            <!-- Image -->
+            <td>
+
+              <img
+                [src]="product.url"
+                class="rounded border"
+                style="width:70px;height:70px;object-fit:cover">
+
+            </td>
+
+            <!-- Description -->
+            <td class="text-muted"
+              style="max-width:300px">
+
+              {{ product.description }}
+
+            </td>
+
+            <!-- Action -->
+            <td class="text-center">
+
+              <div class="d-flex justify-content-center gap-2">
+
+                <button
+                  class="btn btn-outline-primary btn-sm"
+                  (click)="updateProduct(product.id)">
+
+                  <i class="fa fa-edit"></i>
+
+                </button>
+
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="deleteProduct(product)">
+
+                  <i class="fa fa-trash"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-between align-items-center mt-3">
+
+    <div class="text-muted small">
+
+      Page {{ currentPage + 1 }} of {{ totalPages }}
+
+    </div>
+
+    <nav>
+
+      <ul class="pagination mb-0">
+
+        <li class="page-item"
+          [class.disabled]="currentPage === 0">
+
+          <a class="page-link"
+            (click)="onPageChange(currentPage - 1)">
+
+            <i class="fa fa-angle-left"></i>
+
+          </a>
+
+        </li>
+
+        <li
+          *ngFor="let page of visiblePages"
+          class="page-item"
+          [class.active]="page === currentPage + 1">
+
+          <a class="page-link"
+            (click)="onPageChange(page - 1)">
+            {{ page }}
+          </a>
+
+        </li>
+
+        <li class="page-item"
+          [class.disabled]="currentPage === totalPages - 1">
+
+          <a class="page-link"
+            (click)="onPageChange(currentPage + 1)">
+
+            <i class="fa fa-angle-right"></i>
+
+          </a>
+
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </div>
+
+</div>

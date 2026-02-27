@@ -1,41 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Order } from 'src/app/models/order';
-import { OrderService } from 'src/app/services/order.service';
-import { Observable } from 'rxjs';
-import { environment } from 'src/app/environments/environments';
-import { OrderResponse } from 'src/app/responses/order/order.response';
+import { Location } from '@angular/common';
 
+
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { OrderResponse } from '../../../responses/order/order.response';
+import { OrderService } from '../../../services/order.service';
 @Component({
   selector: 'app-order-admin',
   templateUrl: './order.admin.component.html',
-  styleUrls: ['./order.admin.component.scss']
+  styleUrls: ['./order.admin.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+  ]
 })
 export class OrderAdminComponent implements OnInit{
-  orders: OrderResponse[] = [];
-  currentPage: number = 1;
-  itemsPerPage: number =5;
+ orders: OrderResponse[] = [];
+  currentPage: number = 0;
+  itemsPerPage: number = 12;
   pages: number[] = [];
   totalPages:number = 0;
   keyword:string = "";
   visiblePages: number[] = [];
+  localStorage?:Storage;
 
   constructor(
     private orderService: OrderService,
     private router: Router,
+    private route: ActivatedRoute,
+    private location: Location,
+    @Inject(DOCUMENT) private document: Document
   ) {
-
+    this.localStorage = document.defaultView?.localStorage;
   }
   ngOnInit(): void {
     debugger
+    this.currentPage = Number(this.localStorage?.getItem('currentOrderAdminPage')) || 0;
     this.getAllOrders(this.keyword, this.currentPage, this.itemsPerPage);
+  }
+  searchOrders() {
+    this.currentPage = 0;
+    this.itemsPerPage = 12;
+    //Mediocre Iron Wallet
+    debugger
+    this.getAllOrders(this.keyword.trim(), this.currentPage, this.itemsPerPage);
   }
   getAllOrders(keyword: string, page: number, limit: number) {
     debugger
-    this.orderService.getAllOrders(keyword, page-1, limit).subscribe({
+    this.orderService.getAllOrders(keyword, page, limit).subscribe({
       next: (response: any) => {
         debugger
         this.orders = response.orders;
@@ -51,9 +67,10 @@ export class OrderAdminComponent implements OnInit{
       }
     });
   }
- onPageChange(page: number) {
+  onPageChange(page: number) {
     debugger;
-    this.currentPage = page;
+    this.currentPage = page < 0 ? 0 : page;
+    this.localStorage?.setItem('currentOrderAdminPage', String(this.currentPage));
     this.getAllOrders(this.keyword, this.currentPage, this.itemsPerPage);
   }
 
@@ -68,10 +85,12 @@ export class OrderAdminComponent implements OnInit{
       startPage = Math.max(endPage - maxVisiblePages + 1, 1);
     }
 
-    return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
+    return new Array(endPage - startPage + 1).fill(0)
+        .map((_, index) => startPage + index);
   }
+
   deleteOrder(id:number) {
- const confirmation = window
+    const confirmation = window
       .confirm('Are you sure you want to delete this order?');
     if (confirmation) {
       debugger
@@ -90,8 +109,9 @@ export class OrderAdminComponent implements OnInit{
       });
     }
   }
-  viewDetails(order: OrderResponse) {
+  viewDetails(order:OrderResponse) {
     debugger
     this.router.navigate(['/admin/orders', order.id]);
   }
+
 }

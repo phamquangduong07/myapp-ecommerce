@@ -2,6 +2,7 @@ package com.project.myapp.servers;
 
 import com.project.myapp.dtos.ProductDTO;
 import com.project.myapp.dtos.ProductImageDTO;
+import com.project.myapp.exceptions.DataNotFoundException;
 import com.project.myapp.models.Product;
 import com.project.myapp.models.ProductImage;
 import com.project.myapp.responses.ProductResponse;
@@ -16,7 +17,7 @@ public interface IProductService {
     public Page<ProductResponse> getAllProducts(String keyword,
                                                 Long categoryId, PageRequest pageRequest);
     Product updateProduct(long id, ProductDTO productDTO) throws Exception;
-    void deleteProduct(long id);
+    void deleteProduct(long id) ;
     boolean existsByName(String name);
     ProductImage createProductImage(
             Long productId,

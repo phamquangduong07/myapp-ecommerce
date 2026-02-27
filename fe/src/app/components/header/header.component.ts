@@ -1,19 +1,27 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { NgbModule, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/app/environments/environments';
-import { Product } from 'src/app/models/product';
-import { UserResponse } from 'src/app/responses/user/user.response';
-import { CartService } from 'src/app/services/cart.service';
-import { ProductService } from 'src/app/services/products.service';
-import { TokenService } from 'src/app/services/token.service';
-import { UserService } from 'src/app/services/user.service';
+import { UserResponse } from '../../responses/user/user.response';
+import { Product } from '../../models/product';
+import { UserService } from '../../services/user.service';
+import { TokenService } from '../../services/token.service';
+import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/products.service';
+import { environment } from '../../../environments/environments';
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgbModule,
+    RouterModule
+  ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   userResponse?: UserResponse | null;

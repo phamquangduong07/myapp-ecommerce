@@ -3,33 +3,62 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Product } from '../models/product';
-import { environment } from '../environments/environments';
+import { environment } from '../../environments/environments';
+import { UpdateProductDTO } from '../dtos/product/update.product.dto';
+import { InsertProductDTO } from '../dtos/product/insert.product.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiGetProducts = `${environment.apiBaseUrl}/products`;
+   private apiBaseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
-  getProducts(keyword:string, categoryId:number,
-              page: number, limit: number
-    ): Observable<Product[]> {
-    const params = new HttpParams()
-      .set('keyword', keyword)
-      .set('category_id', categoryId)
-      .set('page', page.toString())
-      .set('limit', limit.toString());
-    return this.http.get<Product[]>(this.apiGetProducts, { params });
+  getProducts(
+    keyword: string,
+    categoryId: number,
+    page: number,
+    limit: number
+  ): Observable<Product[]> {
+    const params = {
+      keyword: keyword,
+      category_id: categoryId.toString(),
+      page: page.toString(),
+      limit: limit.toString()
+    };
+    return this.http.get<Product[]>(`${this.apiBaseUrl}/products`, { params });
   }
-  getDetailProduct(productId: number) {
-    return this.http.get(`${environment.apiBaseUrl}/products/${productId}`);
+
+  getDetailProduct(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiBaseUrl}/products/${productId}`);
   }
-   getProductsByIds(productIds: number[]): Observable<Product[]> {
-    // Chuyển danh sách ID thành một chuỗi và truyền vào params
-    debugger
+
+  getProductsByIds(productIds: number[]): Observable<Product[]> {
     const params = new HttpParams().set('ids', productIds.join(','));
-    return this.http.get<Product[]>(`${this.apiGetProducts}/by-ids`, { params });
+    return this.http.get<Product[]>(`${this.apiBaseUrl}/products/by-ids`, { params });
+  }
+  deleteProduct(productId: number): Observable<string> {
+    debugger
+    return this.http.delete<string>(`${this.apiBaseUrl}/products/${productId}`);
+  }
+  updateProduct(productId: number, updatedProduct: UpdateProductDTO): Observable<UpdateProductDTO> {
+    return this.http.put<Product>(`${this.apiBaseUrl}/products/${productId}`, updatedProduct);
+  }
+  insertProduct(insertProductDTO: InsertProductDTO): Observable<any> {
+    // Add a new product
+    return this.http.post(`${this.apiBaseUrl}/products`, insertProductDTO);
+  }
+  uploadImages(productId: number, files: File[]): Observable<any> {
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append('files', files[i]);
+    }
+    // Upload images for the specified product id
+    return this.http.post(`${this.apiBaseUrl}/products/uploads/${productId}`, formData);
+  }
+  deleteProductImage(id: number): Observable<any> {
+    debugger
+    return this.http.delete<string>(`${this.apiBaseUrl}/product_images/${id}`);
   }
 }

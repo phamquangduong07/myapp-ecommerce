@@ -2,16 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/products.service';
 import { ProductImage } from '../../models/product.image';
-import { environment } from '../../environments/environments';
+import { environment } from '../../../environments/environments';
 import { CartService } from '../../services/cart.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TokenService } from 'src/app/services/token.service';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-detail-product',
   templateUrl: './detail-product.component.html',
   styleUrls: ['./detail-product.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    NgbModule
+  ]
 })
+
 export class DetailProductComponent implements OnInit {
   product?: Product;
   productId: number = 0;
@@ -96,7 +109,7 @@ export class DetailProductComponent implements OnInit {
 
       return;
     }
-    this.cartService.addToCart(productId, 1);
+    this.cartService.addToCart(productId, this.quantity);
   }
 
   increaseQuantity(): void {

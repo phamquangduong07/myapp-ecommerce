@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/app/environments/environments';
-import { OrderDetail } from 'src/app/models/order.detail';
-import { Product } from 'src/app/models/product';
-import { OrderResponse } from 'src/app/responses/order/order.response';
-import { CartService } from 'src/app/services/cart.service';
-import { OrderService } from 'src/app/services/order.service';
-import { ProductService } from 'src/app/services/products.service';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { OrderResponse } from '../../responses/order/order.response';
+import { OrderService } from '../../services/order.service';
+import { OrderDetail } from '../../models/order.detail';
+import { environment } from '../../../environments/environments';
 
 @Component({
-  selector: 'app-order-confirm',
+  selector: 'app-order-detail',
   templateUrl: './order.detail.component.html',
-  styleUrls: ['./order.detail.component.scss']
+  styleUrls: ['./order.detail.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule
+  ]
 })
 export class OrderDetailComponent implements OnInit {
   orderResponse: OrderResponse = {
-    id: 0, // Hoặc bất kỳ giá trị số nào bạn muốn
+    id: 0,
     user_id: 0,
     fullname: '',
     phone_number: '',

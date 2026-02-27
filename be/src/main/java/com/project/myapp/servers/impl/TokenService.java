@@ -39,7 +39,7 @@ public class TokenService implements ITokenService {
         if(existingToken == null) {
             throw new DataNotFoundException("Refresh token does not exist");
         }
-        if(existingToken.getRefreshExpirationDate().compareTo(LocalDateTime.now()) < 0){
+        if(existingToken.getRefreshExpirationDate().isBefore(LocalDateTime.now())){
             tokenRepository.delete(existingToken);
             throw new ExpiredTokenException("Refresh token is expired");
         }

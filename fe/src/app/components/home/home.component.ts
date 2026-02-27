@@ -2,18 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { Category } from '../../models/category';
 
-import { CategoryService } from 'src/app/services/category.service';
 
 import { Router } from '@angular/router';
-import { ProductService } from 'src/app/services/products.service';
-import { environment } from 'src/app/environments/environments';
-import { CartService } from 'src/app/services/cart.service';
-import { TokenService } from 'src/app/services/token.service';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../services/products.service';
+import { CategoryService } from '../../services/category.service';
+import { CartService } from '../../services/cart.service';
+import { TokenService } from '../../services/token.service';
+import { environment } from '../../../environments/environments';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    FormsModule
+  ]
 })
 export class HomeComponent implements OnInit {
   products: Product[] = [];

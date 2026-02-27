@@ -5,18 +5,33 @@ import {
   Validators,
   ValidationErrors,
   ValidatorFn,
-  AbstractControl
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { TokenService } from '../../services/token.service';
 import { UserResponse } from '../../responses/user/user.response';
-import { UpdateUserDTO } from 'src/app/dtos/user/update.user.dto';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { UpdateUserDTO } from '../../dtos/user/update.user.dto';
+
 @Component({
   selector: 'user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class UserProfileComponent implements OnInit {
   userResponse?: UserResponse;

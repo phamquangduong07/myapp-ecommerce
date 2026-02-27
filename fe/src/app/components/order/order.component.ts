@@ -1,23 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { OrderDTO } from 'src/app/dtos/order/order.dto';
-import { environment } from 'src/app/environments/environments';
-import { Order } from 'src/app/models/order';
-import { Product } from 'src/app/models/product';
 
-import { CartService } from 'src/app/services/cart.service';
-import { OrderService } from 'src/app/services/order.service';
-import { ProductService } from 'src/app/services/products.service';
-import { TokenService } from 'src/app/services/token.service';
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { Product } from '../../models/product';
+import { OrderDTO } from '../../dtos/order/order.dto';
+import { CartService } from '../../services/cart.service';
+import { ProductService } from '../../services/products.service';
+import { OrderService } from '../../services/order.service';
+import { TokenService } from '../../services/token.service';
+import { environment } from '../../../environments/environments';
+import { Order } from '../../models/order';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+  styleUrls: ['./order.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ]
 })
 export class OrderComponent implements OnInit, OnDestroy {
 
@@ -26,7 +38,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   cartItems: { product: Product, quantity: number }[] = [];
 
   totalAmount = 0;
-
+ user = this.userService.getUserResponseFromLocalStorage();
   private cartSubscription!: Subscription;
 
   orderData: OrderDTO = {
@@ -50,7 +62,8 @@ export class OrderComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private tokenService: TokenService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
 
     this.orderForm = this.formBuilder.group({
@@ -71,7 +84,8 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.orderData.user_id = this.tokenService.getUserId();
+
+    this.orderData.user_id = this.user?.id ?? 0;
 
     // REALTIME CART SUBSCRIBE
     this.cartSubscription = this.cartService.cart$.subscribe(cart => {
@@ -135,7 +149,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     const orderPayload: OrderDTO = {
       ...this.orderData,
       ...this.orderForm.value,
-      user_id: this.tokenService.getUserId(),
+      user_id: this.user?.id ?? 0,
       total_money: this.totalAmount,
       cart_items: this.cartItems.map(item => ({
         product_id: item.product.id,

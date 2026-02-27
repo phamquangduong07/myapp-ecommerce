@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Order } from 'src/app/models/order';
-import { OrderService } from 'src/app/services/order.service';
-import { Observable } from 'rxjs';
+import { OrderResponse } from '../../../responses/order/order.response';
+import { OrderService } from '../../../services/order.service';
+import { TokenService } from '../../../services/token.service';
+import { environment } from '../../../../environments/environments';
+import { OrderDTO } from '../../../dtos/order/order.dto';
 
-import { OrderResponse } from 'src/app/responses/order/order.response';
-import { OrderDetail } from 'src/app/models/order.detail';
-import { OrderDTO } from 'src/app/dtos/order/order.dto';
-import { environment } from 'src/app/environments/environments';
-import { TokenService } from 'src/app/services/token.service';
+
 
 @Component({
   selector: 'app-detail-order-admin',
   templateUrl: './detail.order.admin.component.html',
-  styleUrls: ['./detail.order.admin.component.scss']
+  styleUrls: ['./detail.order.admin.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+  ]
 })
 
 export class DetailOrderAdminComponent implements OnInit{

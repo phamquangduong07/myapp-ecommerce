@@ -1,5 +1,6 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,28 +8,35 @@ import { BehaviorSubject } from "rxjs";
 export class CartService {
 
   private cart: Map<number, number> = new Map();
-
   private cartSubject = new BehaviorSubject<Map<number, number>>(new Map());
-
   cart$ = this.cartSubject.asObservable();
 
   private currentCartKey = 'cart_guest';
+  private isBrowser: boolean;
 
-  constructor() {}
-
-  // SET CART KEY WHEN LOGIN / LOGOUT
-  setUserCart(userId?: number) {
-
-    if (userId) {
-      this.currentCartKey = `cart_user_${userId}`;
-    } else {
-      this.currentCartKey = 'cart_guest';
-    }
-
-    this.loadCart();
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  private loadCart() {
+ setUserCart(userId?: number): void {
+  this.cart.clear();
+  this.cartSubject.next(new Map());
+
+  this.currentCartKey = userId
+    ? `cart_user_${userId}`
+    : 'cart_guest';
+
+  this.loadCart();
+}
+
+
+  private loadCart(): void {
+    if (!this.isBrowser) {
+
+      this.cart = new Map();
+      this.cartSubject.next(new Map());
+      return;
+    }
 
     const storedCart = localStorage.getItem(this.currentCartKey);
 
@@ -37,21 +45,21 @@ export class CartService {
       : new Map();
 
     this.cartSubject.next(new Map(this.cart));
-
   }
 
-  addToCart(productId: number, quantity: number = 1) {
+  addToCart(productId: number, quantity: number = 1): void {
+    if (!this.isBrowser) return;
 
-    if (this.cart.has(productId)) {
-      this.cart.set(productId, this.cart.get(productId)! + quantity);
-    } else {
-      this.cart.set(productId, quantity);
-    }
+    this.cart.set(
+      productId,
+      (this.cart.get(productId) ?? 0) + quantity
+    );
 
     this.updateState();
   }
 
-  updateQuantity(productId: number, quantity: number) {
+  updateQuantity(productId: number, quantity: number): void {
+    if (!this.isBrowser) return;
 
     if (quantity <= 0) {
       this.removeFromCart(productId);
@@ -62,22 +70,23 @@ export class CartService {
     this.updateState();
   }
 
-  removeFromCart(productId: number) {
+  removeFromCart(productId: number): void {
+    if (!this.isBrowser) return;
 
     this.cart.delete(productId);
     this.updateState();
   }
 
-  clearCart() {
+  clearCart(): void {
+    if (!this.isBrowser) return;
 
     this.cart.clear();
-
     localStorage.removeItem(this.currentCartKey);
-
     this.cartSubject.next(new Map());
   }
 
-  private updateState() {
+  private updateState(): void {
+    if (!this.isBrowser) return;
 
     localStorage.setItem(
       this.currentCartKey,
@@ -86,5 +95,4 @@ export class CartService {
 
     this.cartSubject.next(new Map(this.cart));
   }
-
 }

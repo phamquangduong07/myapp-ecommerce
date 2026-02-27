@@ -114,48 +114,44 @@
 
           <li class="nav-item ms-3">
             <div class="dropdown cart-dropdown position-relative">
+              <a
+                class="text-decoration-none text-dark position-relative"
+                routerLink="/orders"
+              >
+                <i class="fa-solid fa-cart-shopping fs-4"></i>
 
-  <a
-    class="text-decoration-none text-dark position-relative"
-    routerLink="/orders"
-  >
-    <i class="fa-solid fa-cart-shopping fs-4"></i>
+                <span
+                  *ngIf="isLoggedIn && totalCartItems > 0"
+                  class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
+                >
+                  {{ totalCartItems }}
+                </span>
+              </a>
 
-    <span
-      *ngIf="isLoggedIn && totalCartItems > 0"
-      class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle"
-    >
-      {{ totalCartItems }}
-    </span>
+              <ul
+                *ngIf="isLoggedIn"
+                class="dropdown-menu dropdown-menu-end p-3 mini-cart"
+                style="width: 320px"
+              >
+                <li class="d-flex mb-2" *ngFor="let item of miniCartItems">
+                  <img
+                    [src]="item.product.thumbnail"
+                    width="45"
+                    height="45"
+                    class="me-2 rounded"
+                  />
 
-  </a>
+                  <div>
+                    {{ item.product.name }}
+                    <div class="text-muted small">
+                      {{ item.quantity }} x {{ item.product.price | number }} đ
+                    </div>
+                  </div>
+                </li>
 
-  <ul
-    *ngIf="isLoggedIn"
-    class="dropdown-menu dropdown-menu-end p-3 mini-cart"
-    style="width: 320px"
-  >
-    <li class="d-flex mb-2" *ngFor="let item of miniCartItems">
+                <li><hr /></li>
 
-      <img
-        [src]="item.product.thumbnail"
-        width="45"
-        height="45"
-        class="me-2 rounded"
-      />
-
-      <div>
-        {{ item.product.name }}
-        <div class="text-muted small">
-          {{ item.quantity }} x {{ item.product.price | number }} đ
-        </div>
-      </div>
-
-    </li>
-
-    <li><hr /></li>
-
-    <!-- <li class="text-center">
+                <!-- <li class="text-center">
       <button
         class="btn btn-success w-100"
         routerLink="/orders"
@@ -163,11 +159,8 @@
         Xem giỏ hàng
       </button>
     </li> -->
-
-  </ul>
-
-</div>
-
+              </ul>
+            </div>
           </li>
         </ul>
       </div>

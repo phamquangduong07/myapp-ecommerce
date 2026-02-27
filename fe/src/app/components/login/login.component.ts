@@ -1,19 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { LoginDTO } from '../../dtos/user/login.dto';
-import { LoginResponse } from 'src/app/responses/user/login.response';
-import { TokenService } from 'src/app/services/token.service';
-import { RoleService } from 'src/app/services/role.service';
-import { Role } from 'src/app/models/role';
-import { UserResponse } from 'src/app/responses/user/user.response';
-import { CartService } from 'src/app/services/cart.service';
+
+import { FooterComponent } from '../footer/footer.component';
+import { HeaderComponent } from '../header/header.component';
+import { CommonModule } from '@angular/common';
+import { Role } from '../../models/role';
+import { UserResponse } from '../../responses/user/user.response';
+import { TokenService } from '../../services/token.service';
+import { RoleService } from '../../services/role.service';
+import { CartService } from '../../services/cart.service';
+import { LoginResponse } from '../../responses/user/login.response';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    CommonModule,
+    FormsModule
+  ]
 })
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm!: NgForm;

@@ -50,7 +50,7 @@ public class UserService implements IUserService {
         if(role.getName().toUpperCase().equals(Role.ADMIN)) {
             throw new PermissionDenyException("You cannot register an admin account");
         }
-        //convert from userDTO => user
+
         User newUser = User.builder()
                 .fullName(userDTO.getFullName())
                 .phoneNumber(userDTO.getPhoneNumber())
@@ -84,7 +84,7 @@ public class UserService implements IUserService {
         if(optionalUser.isEmpty()) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
         }
-
+     
         User existingUser = optionalUser.get();
 
         if (existingUser.getFacebookAccountId() == 0
@@ -102,7 +102,7 @@ public class UserService implements IUserService {
                 existingUser.getAuthorities()
         );
 
-        //authenticate with Java Spring security
+
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
     }
